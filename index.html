@@ -3,50 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para mi Player 2</title>
+    <title>Player 1 & Player 2</title>
     <style>
-        /* ESTILO MODO OSCURO */
+        /* --- ESTILOS GENERALES --- */
         body {
-            background-color: #0d1117; /* Fondo tipo GitHub Dark */
+            background-color: #0d1117;
             color: #c9d1d9;
-            font-family: 'Courier New', Courier, monospace; /* Fuente tipo código */
+            font-family: 'Courier New', Courier, monospace;
             margin: 0;
             padding: 20px;
             text-align: center;
             line-height: 1.6;
         }
         .container {
-            max-width: 600px;
+            max-width: 800px; /* Hacemos el contenedor un poco más ancho */
             margin: 0 auto;
-            padding-top: 50px;
+            padding-top: 30px;
         }
-        h1 {
-            color: #58a6ff; /* Azul tech */
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+
+        /* --- EFECTO DE ESCRITURA (TYPING) --- */
+        .typing-effect {
+            display: inline-block;
+            overflow: hidden;
+            border-right: .15em solid #58a6ff;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .10em;
+            animation: 
+                typing 3.5s steps(40, end),
+                blink-caret .75s step-end infinite;
+            color: #58a6ff;
+            font-size: 2rem;
+            max-width: 100%;
         }
-        .heart {
-            color: #ff7b72; /* Rojo suave */
-            font-size: 3rem;
-            animation: latido 1s infinite;
+
+        /* Ajuste para móviles del efecto typing */
+        @media (max-width: 600px) {
+            .typing-effect { font-size: 1.2rem; white-space: normal; border: none; animation: none;}
         }
-        @keyframes latido {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-        .photo-frame {
-            border: 2px solid #30363d;
-            padding: 10px;
-            border-radius: 10px;
-            margin: 20px 0;
+
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #58a6ff; } }
+
+        /* --- CONTADOR DE UPTIME --- */
+        .uptime-box {
             background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 1.2rem;
+            color: #7ee787; /* Verde éxito */
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(126, 231, 135, 0.1);
+        }
+        .label { font-size: 0.8rem; color: #8b949e; display: block; margin-top: 5px; font-weight: normal;}
+
+        /* --- GALERÍA DE FOTOS (GRID) --- */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .photo-card {
+            background: #161b22;
+            padding: 5px;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        .photo-card:hover {
+            transform: scale(1.05); /* Efecto zoom al pasar el ratón */
+            border-color: #58a6ff;
         }
         img {
-            max-width: 100%;
+            width: 100%;
+            height: 200px;
+            object-fit: cover; /* Recorta la foto para que encaje bien */
             border-radius: 5px;
             display: block;
         }
+
+        /* --- TIMELINE Y OTROS --- */
         .changelog {
             text-align: left;
             background: #161b22;
@@ -55,87 +94,115 @@
             border: 1px solid #30363d;
             margin-top: 30px;
         }
-        .version {
-            color: #79c0ff;
-            font-weight: bold;
-        }
-        .date {
-            color: #8b949e;
-            font-size: 0.8rem;
-            margin-left: 10px;
-        }
+        .version { color: #79c0ff; font-weight: bold; }
+        .date { color: #8b949e; font-size: 0.8rem; margin-left: 10px; }
+        
         .btn {
             display: inline-block;
             margin-top: 30px;
-            padding: 10px 20px;
-            background: #238636; /* Verde botón */
+            padding: 12px 24px;
+            background: #238636;
             color: white;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 6px;
             font-weight: bold;
+            transition: background 0.3s;
         }
-        .footer {
-            margin-top: 50px;
-            font-size: 0.8rem;
-            color: #484f58;
-        }
+        .btn:hover { background: #2ea043; }
+
+        .footer { margin-top: 50px; font-size: 0.8rem; color: #484f58; }
+        .heart { color: #ff7b72; animation: latido 1s infinite; display: inline-block;}
+        @keyframes latido { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="heart">♥</div>
-        <h1>Project: US</h1>
-        <p>Compilando amor desde 2020...</p>
+        <div style="font-size: 3rem;">♥</div>
+        
+        <div class="typing-container">
+            <h1 class="typing-effect">Project: US_v2.0</h1>
+        </div>
 
-        <div class="photo-frame">
-            <img src="foto.jpg" alt="Nosotros">
+        <p>System Status: <span style="color:#7ee787">Operational & In Love</span></p>
+
+        <div class="uptime-box">
+            <span id="uptime">Calculando...</span>
+            <span class="label">Server Uptime (Tiempo Juntos)</span>
+        </div>
+
+        <div class="gallery">
+            <div class="photo-card">
+                <img src="foto.jpg" alt="Foto 1">
+            </div>
+            <div class="photo-card">
+                <img src="foto2.jpg" alt="Foto 2">
+            </div>
+            <div class="photo-card">
+                <img src="foto3.jpg" alt="Foto 3">
+            </div>
         </div>
 
         <div class="changelog">
-            <h3>📜 Changelog de nuestra relación</h3>
+            <h3>📜 System Logs (Historial)</h3>
             
             <p>
                 <span class="version">v1.0.0 - Initial Commit</span> 
                 <span class="date">01/06/2020</span><br>
-                Inicio del proyecto. Se detectó compatibilidad total entre sistemas.
-                Start del servidor oficial.
+                El despliegue inicial. No sabíamos que este proyecto se convertiría en el más importante de nuestras vidas.
             </p>
             <hr style="border-color: #30363d; opacity: 0.3;">
             
             <p>
-                <span class="version">v2.4.0 - Patch de Aventuras</span> 
-                <span class="date">// FECHA DE UN VIAJE</span><br>
-                Expansión del mapa desbloqueada en [LUGAR]. 
-                Se mejoraron las texturas de la felicidad.
+                <span class="version">v2.x.x - Expansion Pack</span> 
+                <span class="date">// 2022</span><br>
+                Añade aquí un texto sobre un viaje, una mudanza o cuando adoptasteis una mascota.
             </p>
             <hr style="border-color: #30363d; opacity: 0.3;">
 
             <p>
-                <span class="version">v5.0.0 - Stable Release</span> 
-                <span class="date">2025</span><br>
-                Casi 5 años de uptime continuo sin caídas del servidor.
-                Próximo objetivo: Despliegue en producción de "Nuestra Casa".
-                Status: Loading... [████░░░░░░] 40%
+                <span class="version">v5.0.0 - Future Roadmap</span> 
+                <span class="date">2026...</span><br>
+                Funcionalidades planeadas: Viajar más, reírnos el doble y seguir actualizando este código juntos.
             </p>
         </div>
 
-        <a href="#" onclick="alert('Te quiero más que a un código sin errores ❤️')" class="btn">
-            Click to Deploy Love
+        <a href="#" onclick="alert('System Message: Eres mi usuario favorito. Acceso concedido de por vida. ❤️')" class="btn">
+            Confirmar Suscripción
         </a>
 
         <div class="footer">
-            <p>Hecho con HTML, CSS y mucho amor | 2025</p>
-            <p><i>(Presiona F12 y mira la consola para un secreto)</i></p>
+            <p>Hecho con HTML, CSS, JS y mucho amor | 2025</p>
         </div>
     </div>
 
     <script>
-        // EL MENSAJE SECRETO (EASTER EGG)
-        console.log("%c ¡HOLA BUBU! ", "color: red; font-size: 30px; font-weight: bold;");
-        console.log("Desde el 01/06/2020 siendo mi mejor compañero de equipo.");
-        console.log("Eres mi constante favorita.");
-        console.log("Te quiero 3000.");
+        // CONFIGURACIÓN DE LA FECHA DE ANIVERSARIO
+        // Formato: AÑO, MES (¡OJO! Enero es 0, Febrero 1... Junio es 5), DÍA
+        const startDate = new Date(2020, 5, 1); // 2020, Junio (5), 1
+
+        function updateUptime() {
+            const now = new Date();
+            const diff = now - startDate;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            const years = Math.floor(days / 365);
+            const remainingDays = days % 365;
+
+            document.getElementById("uptime").innerText = 
+                `${years} Años, ${remainingDays} Días, ${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        setInterval(updateUptime, 1000); // Actualiza cada segundo
+        updateUptime(); // Ejecuta inmediatamente al cargar
+
+        // EASTER EGG EN CONSOLA
+        console.log("%c SYSTEM ALERT: ", "color: red; font-size: 20px; font-weight: bold;");
+        console.log("El amor en este sistema consume el 100% de la CPU, pero merece la pena.");
     </script>
 
 </body>
