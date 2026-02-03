@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi Player 2</title>
+    <style>
+        /* ESTILO MODO OSCURO */
+        body {
+            background-color: #0d1117; /* Fondo tipo GitHub Dark */
+            color: #c9d1d9;
+            font-family: 'Courier New', Courier, monospace; /* Fuente tipo código */
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding-top: 50px;
+        }
+        h1 {
+            color: #58a6ff; /* Azul tech */
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .heart {
+            color: #ff7b72; /* Rojo suave */
+            font-size: 3rem;
+            animation: latido 1s infinite;
+        }
+        @keyframes latido {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .photo-frame {
+            border: 2px solid #30363d;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 20px 0;
+            background: #161b22;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 5px;
+            display: block;
+        }
+        .changelog {
+            text-align: left;
+            background: #161b22;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #30363d;
+            margin-top: 30px;
+        }
+        .version {
+            color: #79c0ff;
+            font-weight: bold;
+        }
+        .date {
+            color: #8b949e;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background: #238636; /* Verde botón */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 50px;
+            font-size: 0.8rem;
+            color: #484f58;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="heart">♥</div>
+        <h1>Project: US</h1>
+        <p>Compilando amor desde 2020...</p>
+
+        <div class="photo-frame">
+            <img src="foto.jpg" alt="Nosotros">
+        </div>
+
+        <div class="changelog">
+            <h3>📜 Changelog de nuestra relación</h3>
+            
+            <p>
+                <span class="version">v1.0.0 - Initial Commit</span> 
+                <span class="date">01/06/2020</span><br>
+                Inicio del proyecto. Se detectó compatibilidad total entre sistemas.
+                Start del servidor oficial.
+            </p>
+            <hr style="border-color: #30363d; opacity: 0.3;">
+            
+            <p>
+                <span class="version">v2.4.0 - Patch de Aventuras</span> 
+                <span class="date">// FECHA DE UN VIAJE</span><br>
+                Expansión del mapa desbloqueada en [LUGAR]. 
+                Se mejoraron las texturas de la felicidad.
+            </p>
+            <hr style="border-color: #30363d; opacity: 0.3;">
+
+            <p>
+                <span class="version">v5.0.0 - Stable Release</span> 
+                <span class="date">2025</span><br>
+                Casi 5 años de uptime continuo sin caídas del servidor.
+                Próximo objetivo: Despliegue en producción de "Nuestra Casa".
+                Status: Loading... [████░░░░░░] 40%
+            </p>
+        </div>
+
+        <a href="#" onclick="alert('Te quiero más que a un código sin errores ❤️')" class="btn">
+            Click to Deploy Love
+        </a>
+
+        <div class="footer">
+            <p>Hecho con HTML, CSS y mucho amor | 2025</p>
+            <p><i>(Presiona F12 y mira la consola para un secreto)</i></p>
+        </div>
+    </div>
+
+    <script>
+        // EL MENSAJE SECRETO (EASTER EGG)
+        console.log("%c ¡HOLA BUBU! ", "color: red; font-size: 30px; font-weight: bold;");
+        console.log("Desde el 01/06/2020 siendo mi mejor compañero de equipo.");
+        console.log("Eres mi constante favorita.");
+        console.log("Te quiero 3000.");
+    </script>
+
+</body>
+</html>
