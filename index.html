@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Player 1 & Player 2</title>
+    <title>Feliz San Valentín Bubu</title>
     <style>
         /* --- ESTILOS GENERALES --- */
         body {
@@ -16,194 +16,280 @@
             line-height: 1.6;
         }
         .container {
-            max-width: 800px; /* Hacemos el contenedor un poco más ancho */
+            max-width: 1100px;
             margin: 0 auto;
             padding-top: 30px;
         }
 
-        /* --- EFECTO DE ESCRITURA (TYPING) --- */
-        .typing-effect {
-            display: inline-block;
-            overflow: hidden;
-            border-right: .15em solid #58a6ff;
-            white-space: nowrap;
-            margin: 0 auto;
-            letter-spacing: .10em;
-            animation: 
-                typing 3.5s steps(40, end),
-                blink-caret .75s step-end infinite;
+        /* --- TÍTULO --- */
+        h1.main-title {
+            color: #ff7b72;
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(255, 123, 114, 0.3);
+        }
+        .heart-beat { color: #ff7b72; animation: latido 1s infinite; display: inline-block;}
+        @keyframes latido { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+
+        /* --- STATUS BAR (Barra de carga superior) --- */
+        .status-bar {
+            background: #161b22;
             color: #58a6ff;
-            font-size: 2rem;
-            max-width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px dashed #30363d;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
         }
 
-        /* Ajuste para móviles del efecto typing */
-        @media (max-width: 600px) {
-            .typing-effect { font-size: 1.2rem; white-space: normal; border: none; animation: none;}
-        }
-
-        @keyframes typing { from { width: 0 } to { width: 100% } }
-        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #58a6ff; } }
-
-        /* --- CONTADOR DE UPTIME --- */
+        /* --- CONTADOR --- */
         .uptime-box {
             background: #161b22;
             border: 1px solid #30363d;
             border-radius: 10px;
             padding: 15px;
-            margin: 20px 0;
+            margin: 20px auto;
+            max-width: 600px;
             font-size: 1.2rem;
-            color: #7ee787; /* Verde éxito */
-            font-weight: bold;
+            color: #7ee787;
             box-shadow: 0 0 10px rgba(126, 231, 135, 0.1);
         }
         .label { font-size: 0.8rem; color: #8b949e; display: block; margin-top: 5px; font-weight: normal;}
 
-        /* --- GALERÍA DE FOTOS (GRID) --- */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 30px 0;
+        /* --- GALERÍA 3 COLUMNAS --- */
+        .gallery-centered {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin: 40px 0;
         }
-        .photo-card {
-            background: #161b22;
-            padding: 5px;
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            transition: transform 0.3s ease;
-        }
-        .photo-card:hover {
-            transform: scale(1.05); /* Efecto zoom al pasar el ratón */
-            border-color: #58a6ff;
-        }
-        img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover; /* Recorta la foto para que encaje bien */
-            border-radius: 5px;
-            display: block;
-        }
+        .side-column { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+        .center-column { flex: 2; }
 
-        /* --- TIMELINE Y OTROS --- */
-        .changelog {
-            text-align: left;
+        .photo-frame {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 3px solid #30363d;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             background: #161b22;
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid #30363d;
-            margin-top: 30px;
         }
-        .version { color: #79c0ff; font-weight: bold; }
-        .date { color: #8b949e; font-size: 0.8rem; margin-left: 10px; }
+        .photo-frame img { width: 100%; height: auto; display: block; }
+        .center-column .photo-frame { border-color: #ff7b72; transform: scale(1.02); }
+        .photo-frame:hover { transform: scale(1.05); border-color: #58a6ff; z-index: 10; }
         
-        .btn {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 12px 24px;
-            background: #238636;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-            transition: background 0.3s;
+        @media (max-width: 768px) {
+            .gallery-centered { flex-direction: column; }
+            .side-column, .center-column { width: 100%; flex: auto; }
+            .center-column { order: -1; margin-bottom: 20px;} 
         }
-        .btn:hover { background: #2ea043; }
 
+        /* --- HISTORIAL INTERACTIVO --- */
+        .changelog {
+            text-align: left; background: #161b22; padding: 25px; 
+            border-radius: 10px; border: 1px solid #30363d; margin-top: 50px; 
+            max-width: 700px; margin-left: auto; margin-right: auto;
+        }
+        .log-item { 
+            border-bottom: 1px solid #30363d; padding-bottom: 20px; margin-bottom: 20px; 
+            cursor: pointer; /* Manita al pasar por encima */
+            transition: background 0.2s;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .log-item:hover { background: #21262d; }
+        .log-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 10px; }
+        
+        .version { color: #79c0ff; font-weight: bold; font-size: 1.1rem;}
+        .date { color: #8b949e; font-size: 0.9rem; margin-left: 10px; font-style: italic;}
+        .description { margin-top: 8px; color: #c9d1d9; display: block; }
+        .click-hint { font-size: 0.7rem; color: #8b949e; float: right; margin-top: 5px;}
+
+        /* Estilo especial para el futuro */
+        .future-item { border-left: 3px solid #a371f7; padding-left: 15px; opacity: 0.9; }
+
+        /* --- VENTANA MODAL (PARA VER FOTOS AL CLICAR) --- */
+        .modal {
+            display: none; position: fixed; z-index: 1000; left: 0; top: 0;
+            width: 100%; height: 100%; overflow: auto;
+            background-color: rgba(0,0,0,0.9); backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            margin: auto; display: block; max-width: 90%; max-height: 90vh;
+            border-radius: 10px; box-shadow: 0 0 20px rgba(255,255,255,0.1);
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        }
+        .close {
+            position: absolute; top: 20px; right: 35px;
+            color: #f1f1f1; font-size: 40px; font-weight: bold;
+            cursor: pointer; transition: 0.3s;
+        }
+        .close:hover { color: #ff7b72; }
+
+        /* --- BOTÓN Y FOOTER --- */
+        .btn {
+            display: inline-block; margin-top: 30px; padding: 12px 24px;
+            background: #238636; color: white; text-decoration: none; border-radius: 6px; font-weight: bold;
+        }
         .footer { margin-top: 50px; font-size: 0.8rem; color: #484f58; }
-        .heart { color: #ff7b72; animation: latido 1s infinite; display: inline-block;}
-        @keyframes latido { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div style="font-size: 3rem;">♥</div>
-        
-        <div class="typing-container">
-            <h1 class="typing-effect">Project: US_v2.0</h1>
-        </div>
-
-        <p>System Status: <span style="color:#7ee787">Operational & In Love</span></p>
+        <h1 class="main-title">FELIZ SAN VALENTÍN BUBU <span class="heart-beat">❤️</span></h1>
 
         <div class="uptime-box">
             <span id="uptime">Calculando...</span>
-            <span class="label">Server Uptime (Tiempo Juntos)</span>
+            <span class="label">Tiempo aguantándonos (y queriéndonos)</span>
         </div>
 
-        <div class="gallery">
-            <div class="photo-card">
-                <img src="foto.jpg" alt="Foto 1">
+        <div class="gallery-centered">
+            <div class="side-column">
+                <div class="photo-frame"><img src="1.jpg" alt="Foto 1"></div>
+                <div class="photo-frame"><img src="2.jpg" alt="Foto 2"></div>
+                <div class="photo-frame"><img src="3.jpg" alt="Foto 3"></div>
             </div>
-            <div class="photo-card">
-                <img src="foto2.jpg" alt="Foto 2">
+            <div class="center-column">
+                <div class="photo-frame main-photo">
+                    <img src="main.jpg" alt="Nosotros Principal">
+                </div>
             </div>
-            <div class="photo-card">
-                <img src="foto3.jpg" alt="Foto 3">
+            <div class="side-column">
+                <div class="photo-frame"><img src="4.jpg" alt="Foto 4"></div>
+                <div class="photo-frame"><img src="5.jpg" alt="Foto 5"></div>
+                <div class="photo-frame"><img src="6.jpg" alt="Foto 6"></div>
             </div>
         </div>
 
         <div class="changelog">
-            <h3>📜 System Logs (Historial)</h3>
+            <h3>📜 Historial de nuestra historia</h3>
+            <p style="font-size: 0.8rem; color: #8b949e; margin-bottom: 20px;">(Haz clic en cada texto para desbloquear el recuerdo)</p>
             
-            <p>
-                <span class="version">v1.0.0 - Initial Commit</span> 
-                <span class="date">01/06/2020</span><br>
-                El despliegue inicial. No sabíamos que este proyecto se convertiría en el más importante de nuestras vidas.
-            </p>
-            <hr style="border-color: #30363d; opacity: 0.3;">
-            
-            <p>
-                <span class="version">v2.x.x - Expansion Pack</span> 
-                <span class="date">// 2022</span><br>
-                Añade aquí un texto sobre un viaje, una mudanza o cuando adoptasteis una mascota.
-            </p>
-            <hr style="border-color: #30363d; opacity: 0.3;">
+            <div class="log-item" onclick="openModal('2020.jpg')">
+                <span class="version">v2020.06.01 - The Initial Commit</span> 
+                <span class="click-hint">📷 Ver recuerdo</span>
+                <span class="date">01/06/2020</span>
+                <span class="description">
+                    El día que decidimos empezar esta partida en modo cooperativo. Se estableció la conexión inicial y el ping fue de 0ms (conexión directa al corazón).
+                </span>
+            </div>
 
-            <p>
-                <span class="version">v5.0.0 - Future Roadmap</span> 
-                <span class="date">2026...</span><br>
-                Funcionalidades planeadas: Viajar más, reírnos el doble y seguir actualizando este código juntos.
-            </p>
+            <div class="log-item" onclick="openModal('2021.jpg')">
+                <span class="version">v2021 - Compatibility Update</span>
+                <span class="click-hint">📷 Ver recuerdo</span> 
+                <span class="date">2021</span>
+                <span class="description">
+                    Primer año completo. Se corrigieron los bugs de la vergüenza inicial y se mejoró la sincronización.
+                </span>
+            </div>
+
+            <div class="log-item" onclick="openModal('2022.jpg')">
+                <span class="version">v2022 - Expansion Pack</span> 
+                <span class="click-hint">📷 Ver recuerdo</span>
+                <span class="date">2022</span>
+                <span class="description">
+                    El módulo de seriedad ha dejado de responder. Ejecutando hacer_el_tonto.exe con la skin de McDonald's.
+                </span>
+            </div>
+
+            <div class="log-item" onclick="openModal('2023.jpg')">
+                <span class="version">v2023 - High Performance</span> 
+                <span class="click-hint">📷 Ver recuerdo</span>
+                <span class="date">2023</span>
+                <span class="description">
+                    Temperatura crítica detectada en la carcasa. El sistema de refrigeración (crema solar) falló estrepitosamente.
+                </span>
+            </div>
+
+            <div class="log-item" onclick="openModal('2024.jpg')">
+                <span class="version">v2024.01.01 - The Pro Version</span> 
+                <span class="click-hint">📷 Ver recuerdo</span>
+                <span class="date">2024</span>
+                <span class="description">
+                   El cortafuegos de "Tipo Duro" ha sido desactivado con éxito. Acceso de administrador concedido para futuras usuarias (Nivel: Hijas). Vulnerabilidad ante ellas: 100%.
+                </span>
+            </div>
+
+            <div class="log-item" onclick="openModal('2025.jpg')">
+                <span class="version">v2025.10.21 - Solid Foundation</span> 
+                <span class="click-hint">📷 Ver recuerdo</span>
+                <span class="date">2025</span>
+                <span class="description">
+                    Reserva de infraestructura completada. Se han asignado los recursos físicos para el despliegue del servidor 'Nuestra Casa'. Ping de ilusión: Infinito.
+                </span>
+            </div>
+
+            <div class="log-item" style="border-left: 3px solid #ff7b72;" onclick="openModal('2026.jpg')">
+                <span class="version">v2026.02.14 - San Valentín Update</span> 
+                <span class="click-hint">📷 Ver recuerdo</span>
+                <span class="date">HOY</span>
+                <span class="description">
+                    Seguimos sumando momentos, fotos y razones para quererte. Eres mi persona favorita.
+                </span>
+            </div>
+
+            <div class="log-item future-item" onclick="openModal('2028.jpg')">
+                <span class="version">v2028.x.x - Project: HOME</span> 
+                <span class="click-hint">📷 Ver plano/render</span>
+                <span class="date">FUTURO PRÓXIMO</span>
+                <span class="description">
+                    <strong>Roadmap Objetivo:</strong> Finalización de la compilación de la estructura. Entrega de claves de acceso físicas (llaves) y despliegue total en el entorno de producción 'Nuestra Casa'.<br>
+                    Status: <em>Migrating to localhost:2028... [██████████] 100% Loaded.</em>
+                </span>
+            </div>
+
         </div>
 
-        <a href="#" onclick="alert('System Message: Eres mi usuario favorito. Acceso concedido de por vida. ❤️')" class="btn">
-            Confirmar Suscripción
+        <a href="#" onclick="alert('Renovado hasta el 01/06/2100 ¡Te quiero infinito! ❤️')" class="btn">
+            Renovar contrato de amor
         </a>
 
         <div class="footer">
-            <p>Hecho con HTML, CSS, JS y mucho amor | 2025</p>
+            <p>Hecho con HTML, CSS y muchísmo amor | 2026</p>
         </div>
     </div>
 
-    <script>
-        // CONFIGURACIÓN DE LA FECHA DE ANIVERSARIO
-        // Formato: AÑO, MES (¡OJO! Enero es 0, Febrero 1... Junio es 5), DÍA
-        const startDate = new Date(2020, 5, 1); // 2020, Junio (5), 1
+    <div id="imageModal" class="modal" onclick="closeModal()">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImg">
+    </div>
 
+    <script>
+        // --- 1. CONFIGURACIÓN FECHA ---
+        const startDate = new Date(2020, 5, 1); 
+
+        // --- 2. CONTADOR UPTIME ---
         function updateUptime() {
             const now = new Date();
             const diff = now - startDate;
-
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
             const years = Math.floor(days / 365);
             const remainingDays = days % 365;
 
             document.getElementById("uptime").innerText = 
                 `${years} Años, ${remainingDays} Días, ${hours}h ${minutes}m ${seconds}s`;
         }
+        setInterval(updateUptime, 1000);
+        updateUptime();
 
-        setInterval(updateUptime, 1000); // Actualiza cada segundo
-        updateUptime(); // Ejecuta inmediatamente al cargar
+        // --- 3. FUNCIONALIDAD FOTOS (MODAL) ---
+        var modal = document.getElementById("imageModal");
+        var modalImg = document.getElementById("modalImg");
 
-        // EASTER EGG EN CONSOLA
-        console.log("%c SYSTEM ALERT: ", "color: red; font-size: 20px; font-weight: bold;");
-        console.log("El amor en este sistema consume el 100% de la CPU, pero merece la pena.");
+        function openModal(imageSrc) {
+            modal.style.display = "block";
+            modalImg.src = imageSrc;
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
     </script>
-
 </body>
 </html>
