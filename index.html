@@ -94,7 +94,7 @@
         .modal-content { margin: 5% auto; display: block; max-width: 90%; }
         .close { position: absolute; top: 20px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer; z-index: 2001; }
 
-        /* --- 🎮 ESTILOS JUEGO TARKOV (GRID HARDCORE 6x8) --- */
+        /* --- 🎮 ESTILOS JUEGO TARKOV (GOD MODE) --- */
         #game-area {
             display: none; flex-direction: column; align-items: center; justify-content: center;
             width: 100%; height: 100%; position: relative;
@@ -104,13 +104,14 @@
         .stash-container {
             background: #151515;
             padding: 8px;
-            border: 3px solid #4a4a4a;
+            border: 3px solid #ff7b72; /* Borde rojo por dificultad */
             border-radius: 4px;
             margin-bottom: 15px;
             position: relative;
+            box-shadow: 0 0 15px rgba(255, 123, 114, 0.1);
         }
         
-        /* GRID DE 6x8 CELDAS (Tamaño 45px para que quepa en móvil) */
+        /* GRID DE 6x8 CELDAS */
         .stash-grid-bg {
             width: 270px;  /* 6 * 45px */
             height: 360px; /* 8 * 45px */
@@ -120,7 +121,7 @@
             background-size: 45px 45px; 
             background-color: #1a1a1a;
             position: relative;
-            border: 1px solid #333;
+            border: 1px solid #555;
         }
 
         /* Area de objetos sueltos */
@@ -135,7 +136,7 @@
             display: flex; align-items: center; justify-content: center;
             background-color: #2a2a2a;
             border: 1px solid #777;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
             cursor: grab;
             font-size: 1.2rem;
             position: relative; 
@@ -151,15 +152,17 @@
             cursor: grab;
         }
 
-        /* TAMAÑOS (Base 45px por celda) */
-        .item[data-w="3"][data-h="3"] { width: 135px; height: 135px; background: #3e3e2e; } /* Mochila/Rig grande */
-        .item[data-w="2"][data-h="3"] { width: 90px; height: 135px; background: #4a5a4a; } /* Armor */
-        .item[data-w="3"][data-h="2"] { width: 135px; height: 90px; background: #2f353b; } /* Case */
-        .item[data-w="6"][data-h="1"] { width: 270px; height: 45px; background: #2b2b2b; } /* Sniper Larga */
-        .item[data-w="4"][data-h="2"] { width: 180px; height: 90px; background: #3a2a2a; } /* Caja Grande */
-        .item[data-w="2"][data-h="2"] { width: 90px; height: 90px; background: #5a3a5a; } /* Casco */
-        .item[data-w="2"][data-h="1"] { width: 90px; height: 45px; background: #5a3a2a; } /* Pistola */
-        .item[data-w="1"][data-h="1"] { width: 45px; height: 45px; background: #333; } /* Pequeños */
+        /* TAMAÑOS DIABÓLICOS (Base 45px) */
+        /* Armor 3x4 (135x180) - Enorme */
+        .item[data-w="3"][data-h="4"] { width: 135px; height: 180px; background: #3e3e2e; } 
+        /* Rig 3x2 (135x90) */
+        .item[data-w="3"][data-h="2"] { width: 135px; height: 90px; background: #4a5a4a; }
+        /* Rifle 4x2 (180x90) - Ancho y molesto */
+        .item[data-w="4"][data-h="2"] { width: 180px; height: 90px; background: #2b2b2b; }
+        /* Scope 4x1 (180x45) - Largo y fino */
+        .item[data-w="4"][data-h="1"] { width: 180px; height: 45px; background: #3a2a2a; }
+        /* Helmet 2x2 (90x90) */
+        .item[data-w="2"][data-h="2"] { width: 90px; height: 90px; background: #2f353b; }
 
         #win-screen { display: none; text-align: center; animation: popIn 0.5s; }
         .found-in-raid-badge {
@@ -316,8 +319,8 @@
         <img class="modal-content" id="modalImg" style="display:none;">
         
         <div id="game-area" style="display:none;">
-            <h2 style="color:#ff7b72; font-family:'Courier New'; margin-bottom:5px;">⚠️ STASH OVERLOAD</h2>
-            <p style="color:#8b949e; font-size:0.8rem; margin-bottom:15px;">GRID: 6x8. ITEMS: 48 SLOTS. ZERO GAPS.</p>
+            <h2 style="color:#ff7b72; font-family:'Courier New'; margin-bottom:5px;">⚠️LOVE EDITION⚠️</h2>
+            <p style="color:#8b949e; font-size:0.8rem; margin-bottom:15px;">SIMULADOR INVENTARIO DEL TARKOV</p>
             
             <div class="stash-container">
                 <div class="stash-grid-bg" id="stash-grid"></div>
@@ -401,29 +404,25 @@
         }
         function closeModal() { modal.style.display = "none"; }
 
-        // --- JUEGO: LOGIC HARDCORE 6x8 (48 Slots) ---
+        // --- JUEGO: GOD MODE 6x8 (48 Slots) ---
         const GRID_COLS = 6;
         const GRID_ROWS = 8;
-        const CELL_PX = 45; // Tamaño celda para que entre en móviles
+        const CELL_PX = 45; 
         let gridState = Array(GRID_ROWS).fill().map(() => Array(GRID_COLS).fill(0)); 
         
-        // ITEMS QUE SUMAN EXACTAMENTE 48 CELDAS
+        // ITEMS SIN 1x1. SUMA EXACTA 48.
         const itemsConfig = [
-            { id: 1, type: 'backpack', w: 3, h: 3, icon: '🎒' }, // 9
-            { id: 2, type: 'vest', w: 2, h: 3, icon: '🦺' },     // 6
-            { id: 3, type: 'rifle', w: 6, h: 1, icon: '🔫' },    // 6 (Largo!)
-            { id: 4, type: 'box', w: 4, h: 2, icon: '📦' },      // 8
-            { id: 5, type: 'case', w: 3, h: 2, icon: '🧳' },     // 6
-            { id: 6, type: 'helmet', w: 2, h: 2, icon: '⛑️' },   // 4
-            { id: 7, type: 'pistol', w: 2, h: 1, icon: '🔫' },   // 2
-            { id: 8, type: 'meds', w: 1, h: 1, icon: '💊' },     // 1
-            { id: 9, type: 'wallet', w: 1, h: 1, icon: '💶' },   // 1
-            { id: 10, type: 'keys', w: 1, h: 1, icon: '🔑' },    // 1
-            { id: 11, type: 'ring', w: 1, h: 1, icon: '💍' },    // 1
-            { id: 12, type: 'ammo', w: 1, h: 1, icon: '💣' },    // 1
-            { id: 13, type: 'phone', w: 1, h: 1, icon: '📱' },   // 1
-            { id: 14, type: 'map', w: 1, h: 1, icon: '🗺️' }     // 1
-        ]; // TOTAL: 9+6+6+8+6+4+2+1+1+1+1+1+1+1 = 48
+            { id: 1, type: 'trooper', w: 3, h: 4, icon: '⛽' },  // 12 (Masivo)
+            { id: 2, type: 'rig1', w: 3, h: 2, icon: '🦺' },     // 6
+            { id: 3, type: 'rig2', w: 3, h: 2, icon: '⚕️' },     // 6
+            { id: 4, type: 'rifle', w: 4, h: 2, icon: '🔫' },    // 8 (Rompe columnas de 3)
+            { id: 5, type: 'helmet', w: 2, h: 2, icon: '⛑️' },   // 4
+            { id: 6, type: 'ammo', w: 2, h: 2, icon: '💼' },     // 4
+            { id: 7, type: 'barrel', w: 4, h: 1, icon: '🍾' },   // 4 (Muy largo)
+            { id: 8, type: 'scope', w: 4, h: 1, icon: '💵' }     // 4
+        ]; 
+        // SUMA: 12 + 6 + 6 + 8 + 4 + 4 + 4 + 4 = 48. EXACTO.
+        // TRUCO: Los de ancho 4 te obligan a dejar huecos de 2. Los de ancho 3 llenan mitad del tablero.
 
         let placedItems = 0;
 
@@ -460,7 +459,7 @@
             });
         }
 
-        // DRAG LOGIC REFINADA
+        // DRAG LOGIC
         function startDrag(e) {
             e.preventDefault();
             let item = this;
@@ -482,12 +481,11 @@
             let shiftX = startX - rect.left;
             let shiftY = startY - rect.top;
 
-            // Z-INDEX SUPREMO PARA QUE NO SE ESCONDA
             item.style.position = 'fixed';
             item.style.zIndex = 9999;
             item.style.left = rect.left + 'px';
             item.style.top = rect.top + 'px';
-            item.style.transition = 'none'; // Quitar lag al arrastrar
+            item.style.transition = 'none'; 
             document.body.appendChild(item);
 
             function moveAt(pageX, pageY) {
@@ -510,9 +508,8 @@
                 document.removeEventListener('mouseup', onEnd);
                 document.removeEventListener('touchend', onEnd);
                 
-                item.style.transition = 'transform 0.1s'; // Restaurar animación
+                item.style.transition = 'transform 0.1s'; 
 
-                // Check Drop Target
                 let stash = document.getElementById('stash-grid');
                 let stashRect = stash.getBoundingClientRect();
                 let itemRect = item.getBoundingClientRect();
