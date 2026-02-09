@@ -1,597 +1,953 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Feliz San Valentín Bubu</title>
-    <style>
-        /* --- ESTILOS GENERALES --- */
-        body {
-            background-color: #0d1117;
-            color: #c9d1d9;
-            font-family: 'Courier New', Courier, monospace;
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-            line-height: 1.6;
-            overflow-x: hidden;
-            padding-bottom: 100px;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding-top: 30px;
-            position: relative;
-            z-index: 1;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Feliz San Valentín Bubu</title>
 
-        /* --- PARTICULAS --- */
-        #particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
-        .particle { position: absolute; text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); font-size: 1.5rem; animation: floatUp linear infinite; }
-        @keyframes floatUp { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 15% { opacity: 0.8; } 85% { opacity: 0.8; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
+  <style>
+    :root{
+      --bg: #0d1117;
+      --panel: rgba(22, 27, 34, 0.72);
+      --border: rgba(48, 54, 61, 0.85);
+      --text: #c9d1d9;
+      --muted: #8b949e;
+      --accent1: #ff7b72;
+      --accent2: #79c0ff;
+      --accent3: #d2a8ff;
+      --good: #7ee787;
 
-        /* --- TEXTOS --- */
-        .gradient-text {
-            background: linear-gradient(45deg, #ff7b72, #79c0ff, #d2a8ff, #ff7b72);
-            background-size: 300%; -webkit-background-clip: text; background-clip: text; color: transparent;
-            font-size: 2.8rem; font-weight: bold; display: inline-block; margin-bottom: 5px; animation: gradient-move 6s ease infinite;
-        }
-        @keyframes gradient-move { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        .heart-beat { color: #ff7b72; animation: latido 1s infinite; display: inline-block; font-size: 2.5rem;}
-        @keyframes latido { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+      --glass-blur: 10px;
+      --shadow: 0 10px 30px rgba(0,0,0,0.35);
+    }
 
-        /* --- UI COMPONENTS --- */
-        .hidden { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
-        .show { opacity: 1; transform: translateY(0); }
-        
-        .uptime-box { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 15px; margin: 20px auto; max-width: 600px; font-size: 1.2rem; color: #7ee787; box-shadow: 0 0 10px rgba(126, 231, 135, 0.1); }
-        .label { font-size: 0.8rem; color: #8b949e; display: block; margin-top: 5px; font-weight: normal;}
+    /* --- ESTILOS GENERALES --- */
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Courier New', Courier, monospace;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+      line-height: 1.6;
+      overflow-x: hidden;
+      padding-bottom: 100px;
+      user-select: none;
+      -webkit-user-select: none;
+      position: relative;
+    }
 
-        .gallery-centered { display: flex; gap: 20px; align-items: center; margin: 40px 0; }
-        .side-column { flex: 1; display: flex; flex-direction: column; gap: 20px; }
-        .center-column { flex: 2; }
-        .photo-frame { border-radius: 12px; overflow: hidden; border: 3px solid #30363d; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.3); background: #161b22; }
-        .photo-frame img { width: 100%; height: auto; display: block; }
-        .center-column .photo-frame { border-color: #ff7b72; transform: scale(1.02); }
-        .photo-frame:hover { transform: scale(1.05); border-color: #58a6ff; box-shadow: 0 0 15px rgba(88, 166, 255, 0.6); z-index: 10; }
-        @media (max-width: 768px) { .gallery-centered { flex-direction: column; } .side-column, .center-column { width: 100%; flex: auto; } .center-column { order: -1; margin-bottom: 20px;} }
+    /* Fondo “aurora” suave */
+    body::before, body::after{
+      content:"";
+      position: fixed;
+      inset: -20%;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(60px);
+      opacity: 0.45;
+      transform: translate3d(0,0,0);
+      animation: auroraMove 18s ease-in-out infinite;
+    }
+    body::before{
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255,123,114,0.18), transparent 40%),
+        radial-gradient(circle at 80% 20%, rgba(121,192,255,0.16), transparent 45%),
+        radial-gradient(circle at 60% 80%, rgba(210,168,255,0.14), transparent 45%);
+    }
+    body::after{
+      opacity: 0.25;
+      animation-duration: 24s;
+      background:
+        radial-gradient(circle at 25% 75%, rgba(121,192,255,0.12), transparent 45%),
+        radial-gradient(circle at 75% 65%, rgba(255,123,114,0.10), transparent 45%);
+    }
+    @keyframes auroraMove{
+      0%   { transform: translate(-2%, -1%) scale(1); }
+      50%  { transform: translate(2%,  1%) scale(1.05); }
+      100% { transform: translate(-2%, -1%) scale(1); }
+    }
 
-        .changelog { text-align: left; background: #161b22; padding: 25px; border-radius: 10px; border: 1px solid #30363d; margin-top: 50px; max-width: 700px; margin-left: auto; margin-right: auto; }
-        .log-item { border-bottom: 1px solid #30363d; padding-bottom: 20px; margin-bottom: 20px; cursor: pointer; transition: all 0.3s ease; padding: 10px; border-radius: 8px; border: 1px solid transparent; }
-        .log-item:hover { background: #21262d; border-color: #58a6ff; box-shadow: 0 0 10px rgba(88, 166, 255, 0.2); transform: translateX(10px); }
-        .log-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 10px; }
-        .version { color: #79c0ff; font-weight: bold; font-size: 1.1rem;}
-        .date { color: #8b949e; font-size: 0.9rem; margin-left: 10px; font-style: italic;}
-        .description { margin-top: 8px; color: #c9d1d9; display: block; }
-        .click-hint { font-size: 0.7rem; color: #8b949e; float: right; margin-top: 5px; opacity: 0.7;}
-        .future-item { border-left: 3px solid #a371f7; padding-left: 15px; opacity: 0.9; }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-top: 30px;
+      position: relative;
+      z-index: 1;
+    }
 
-        .btn { display: inline-block; margin-top: 30px; padding: 12px 24px; background: #238636; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; transition: all 0.3s; }
-        .footer { margin-top: 50px; font-size: 0.8rem; color: #484f58; }
+    /* --- PARTICULAS --- */
+    #particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+    .particle { position: absolute; text-shadow: 0 0 5px rgba(255, 255, 255, 0.25); font-size: 1.5rem; animation: floatUp linear infinite; will-change: transform, opacity; }
+    @keyframes floatUp {
+      0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+      15% { opacity: 0.75; }
+      85% { opacity: 0.75; }
+      100% { transform: translateY(-15vh) rotate(360deg); opacity: 0; }
+    }
+    .particle.blur-dot{
+      width: 10px; height: 10px;
+      border-radius: 999px;
+      text-shadow: none;
+      background: radial-gradient(circle, rgba(255,255,255,0.7), rgba(255,255,255,0.05));
+      filter: blur(0.2px);
+      box-shadow:
+        0 0 14px rgba(255,123,114,0.20),
+        0 0 18px rgba(121,192,255,0.16),
+        0 0 20px rgba(210,168,255,0.14);
+    }
 
-        /* --- 🎵 REPRODUCTOR --- */
-        .music-player-container { position: fixed; bottom: 20px; right: 20px; z-index: 100; display: flex; align-items: center; gap: 10px; background: rgba(22, 27, 34, 0.9); padding: 10px 15px; border-radius: 50px; border: 1px solid #30363d; box-shadow: 0 0 15px rgba(0,0,0,0.5); backdrop-filter: blur(5px); }
-        .play-btn { background: #238636; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-        .song-info { display: flex; flex-direction: column; text-align: left; margin-right: 10px; }
-        .song-title { font-size: 0.85rem; font-weight: bold; color: #c9d1d9; }
-        .song-artist { font-size: 0.7rem; color: #8b949e; }
-        .equalizer { display: flex; gap: 3px; height: 15px; align-items: flex-end; }
-        .bar { width: 3px; background-color: #58a6ff; animation: bounce 0s infinite; }
-        .playing .bar { animation: bounce 1s infinite ease-in-out; }
-        @keyframes bounce { 0%, 100% { height: 3px; } 50% { height: 15px; } }
+    /* --- TEXTOS --- */
+    .gradient-text {
+      background: linear-gradient(45deg, var(--accent1), var(--accent2), var(--accent3), var(--accent1));
+      background-size: 300%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-size: 2.8rem;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 5px;
+      animation: gradient-move 6s ease infinite;
+    }
+    @keyframes gradient-move {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .heart-beat { color: var(--accent1); animation: latido 1s infinite; display: inline-block; font-size: 2.5rem;}
+    @keyframes latido { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
 
-        /* --- 💼 TARKOV BUTTON --- */
-        .loot-container { position: fixed; bottom: 20px; left: 20px; z-index: 100; background: rgba(22, 27, 34, 0.8); border: 1px solid #30363d; border-radius: 5px; padding: 10px; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: transform 0.2s; }
-        .loot-container:hover { border-color: #d2a8ff; transform: scale(1.05); }
-        .loot-icon { font-size: 1.5rem; }
-        .loot-hint { font-size: 0.8rem; color: #c9d1d9; text-transform: uppercase; font-weight: bold; display: none; }
-        .loot-container:hover .loot-hint { display: block; }
+    /* --- UI COMPONENTS --- */
+    .hidden { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+    .show { opacity: 1; transform: translateY(0); }
 
-        /* --- MODAL --- */
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); backdrop-filter: blur(5px); overflow: auto;}
-        .modal-content { margin: 5% auto; display: block; max-width: 90%; }
-        .close { position: absolute; top: 20px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer; z-index: 2001; }
+    /* Glass */
+    .uptime-box,
+    .changelog,
+    .music-player-container,
+    .loot-container{
+      background: var(--panel);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+    }
 
-        /* --- 🎮 ESTILOS JUEGO TARKOV (GOD MODE) --- */
-        #game-area {
-            display: none; flex-direction: column; align-items: center; justify-content: center;
-            width: 100%; height: 100%; position: relative;
-            padding-bottom: 20px;
-        }
+    .uptime-box {
+      border-radius: 12px;
+      padding: 15px;
+      margin: 20px auto;
+      max-width: 600px;
+      font-size: 1.2rem;
+      color: var(--good);
+      box-shadow: var(--shadow);
+    }
+    .label { font-size: 0.8rem; color: var(--muted); display: block; margin-top: 5px; font-weight: normal;}
 
-        .stash-container {
-            background: #151515;
-            padding: 8px;
-            border: 3px solid #ff7b72; /* Borde rojo por dificultad */
-            border-radius: 4px;
-            margin-bottom: 15px;
-            position: relative;
-            box-shadow: 0 0 15px rgba(255, 123, 114, 0.1);
-        }
-        
-        /* GRID DE 6x8 CELDAS */
-        .stash-grid-bg {
-            width: 270px;  /* 6 * 45px */
-            height: 360px; /* 8 * 45px */
-            background-image: 
-                linear-gradient(#333 1px, transparent 1px),
-                linear-gradient(90deg, #333 1px, transparent 1px);
-            background-size: 45px 45px; 
-            background-color: #1a1a1a;
-            position: relative;
-            border: 1px solid #555;
-        }
+    .gallery-centered { display: flex; gap: 20px; align-items: center; margin: 40px 0; }
+    .side-column { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+    .center-column { flex: 2; }
+    .photo-frame {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(48,54,61,0.9);
+      transition: transform 0.55s ease, border-color 0.55s ease, box-shadow 0.55s ease, filter 0.55s ease;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+      background: rgba(22, 27, 34, 0.55);
+      position: relative;
+    }
+    .photo-frame::after{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.10), transparent 45%);
+      opacity: 0.0;
+      transition: opacity 0.55s ease;
+      pointer-events:none;
+    }
+    .photo-frame img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transform: scale(1.02);
+      transition: transform 1.2s ease, filter 0.7s ease;
+      filter: saturate(1.05) contrast(1.02);
+    }
+    .center-column .photo-frame {
+      border-color: rgba(255,123,114,0.85);
+      transform: scale(1.02);
+      box-shadow:
+        0 10px 35px rgba(0,0,0,0.45),
+        0 0 0 1px rgba(255,123,114,0.25),
+        0 0 30px rgba(255,123,114,0.12);
+    }
+    .photo-frame:hover {
+      transform: scale(1.045);
+      border-color: rgba(88, 166, 255, 0.9);
+      box-shadow:
+        0 10px 35px rgba(0,0,0,0.45),
+        0 0 22px rgba(88, 166, 255, 0.35);
+      z-index: 10;
+    }
+    .photo-frame:hover::after{ opacity: 1; }
+    .photo-frame:hover img{
+      transform: scale(1.08);
+      filter: saturate(1.10) contrast(1.06);
+    }
 
-        /* Area de objetos sueltos */
-        .loose-pool {
-            display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
-            width: 320px; min-height: 80px;
-            padding: 10px; border-top: 2px dashed #333;
-        }
+    /* Animación escalonada */
+    .gallery-centered.show .photo-frame{ animation: popCard 0.75s ease both; }
+    .gallery-centered.show .side-column:first-child .photo-frame:nth-child(1){ animation-delay: 0.05s; }
+    .gallery-centered.show .side-column:first-child .photo-frame:nth-child(2){ animation-delay: 0.12s; }
+    .gallery-centered.show .side-column:first-child .photo-frame:nth-child(3){ animation-delay: 0.19s; }
+    .gallery-centered.show .center-column .photo-frame{ animation-delay: 0.10s; }
+    .gallery-centered.show .side-column:last-child .photo-frame:nth-child(1){ animation-delay: 0.14s; }
+    .gallery-centered.show .side-column:last-child .photo-frame:nth-child(2){ animation-delay: 0.21s; }
+    .gallery-centered.show .side-column:last-child .photo-frame:nth-child(3){ animation-delay: 0.28s; }
+    @keyframes popCard{
+      from{ transform: translateY(16px) scale(0.98); opacity: 0; }
+      to{ transform: translateY(0) scale(1); opacity: 1; }
+    }
 
-        /* Los objetos (Items) */
-        .item {
-            display: flex; align-items: center; justify-content: center;
-            background-color: #2a2a2a;
-            border: 1px solid #777;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
-            cursor: grab;
-            font-size: 1.2rem;
-            position: relative; 
-            user-select: none;
-            touch-action: none; 
-            z-index: 10;
-            transition: transform 0.1s;
-        }
-        .item:active { cursor: grabbing; z-index: 9999; transform: scale(1.05); transition: none; }
-        .item.placed {
-            box-shadow: inset 0 0 10px #4caf50;
-            border-color: #4caf50;
-            cursor: grab;
-        }
+    @media (max-width: 768px) {
+      .gallery-centered { flex-direction: column; }
+      .side-column, .center-column { width: 100%; flex: auto; }
+      .center-column { order: -1; margin-bottom: 20px;}
+    }
 
-        /* TAMAÑOS DIABÓLICOS (Base 45px) */
-        /* Armor 3x4 (135x180) - Enorme */
-        .item[data-w="3"][data-h="4"] { width: 135px; height: 180px; background: #3e3e2e; } 
-        /* Rig 3x2 (135x90) */
-        .item[data-w="3"][data-h="2"] { width: 135px; height: 90px; background: #4a5a4a; }
-        /* Rifle 4x2 (180x90) - Ancho y molesto */
-        .item[data-w="4"][data-h="2"] { width: 180px; height: 90px; background: #2b2b2b; }
-        /* Scope 4x1 (180x45) - Largo y fino */
-        .item[data-w="4"][data-h="1"] { width: 180px; height: 45px; background: #3a2a2a; }
-        /* Helmet 2x2 (90x90) */
-        .item[data-w="2"][data-h="2"] { width: 90px; height: 90px; background: #2f353b; }
+    .changelog {
+      text-align: left;
+      padding: 25px;
+      border-radius: 12px;
+      margin-top: 50px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: var(--shadow);
+    }
+    .log-item {
+      border-bottom: 1px solid rgba(48,54,61,0.85);
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+      cursor: pointer;
+      transition: transform 0.35s ease, background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      position: relative;
+    }
+    .log-item::before{
+      content:"";
+      position:absolute; left:0; top:0; bottom:0;
+      width: 0px;
+      background: linear-gradient(180deg, rgba(255,123,114,0.0), rgba(255,123,114,0.35), rgba(121,192,255,0.0));
+      opacity: 0;
+      transition: width 0.35s ease, opacity 0.35s ease;
+      border-radius: 10px 0 0 10px;
+    }
+    .log-item:hover {
+      background: rgba(33, 38, 45, 0.55);
+      border-color: rgba(88, 166, 255, 0.75);
+      box-shadow: 0 0 18px rgba(88, 166, 255, 0.16);
+      transform: translateX(10px);
+    }
+    .log-item:hover::before{ width: 3px; opacity: 1; }
+    .log-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 10px; }
+    .version { color: var(--accent2); font-weight: bold; font-size: 1.1rem;}
+    .date { color: var(--muted); font-size: 0.9rem; margin-left: 10px; font-style: italic;}
+    .description { margin-top: 8px; color: var(--text); display: block; }
+    .click-hint { font-size: 0.7rem; color: var(--muted); float: right; margin-top: 5px; opacity: 0.7;}
+    .future-item { border-left: 3px solid #a371f7; padding-left: 15px; opacity: 0.95; }
 
-        #win-screen { display: none; text-align: center; animation: popIn 0.5s; }
-        .found-in-raid-badge {
-            background: #111; color: #d2a8ff; border: 1px solid #d2a8ff;
-            padding: 5px 15px; display: inline-block; margin-top: 10px; font-weight: bold;
-            font-family: 'Consolas', monospace; box-shadow: 0 0 10px rgba(210, 168, 255, 0.2);
-        }
-        @keyframes popIn { from {transform: scale(0);} to {transform: scale(1);} }
+    .btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 12px 24px;
+      background: #238636;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+      box-shadow: 0 10px 24px rgba(35,134,54,0.15);
+    }
+    .btn:hover{
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+      box-shadow: 0 14px 30px rgba(35,134,54,0.22);
+    }
+    .footer { margin-top: 50px; font-size: 0.8rem; color: #484f58; }
 
-    </style>
+    /* --- 🎵 REPRODUCTOR --- */
+    .music-player-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 15px;
+      border-radius: 50px;
+      box-shadow: 0 0 18px rgba(0,0,0,0.45);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .music-player-container:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 0 22px rgba(0,0,0,0.55);
+    }
+    .play-btn {
+      background: #238636;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: transform 0.18s ease, filter 0.18s ease;
+    }
+    .play-btn:hover{ transform: scale(1.04); filter: brightness(1.05); }
+    .song-info { display: flex; flex-direction: column; text-align: left; margin-right: 10px; }
+    .song-title { font-size: 0.85rem; font-weight: bold; color: var(--text); }
+    .song-artist { font-size: 0.7rem; color: var(--muted); }
+    .equalizer { display: flex; gap: 3px; height: 15px; align-items: flex-end; }
+    .bar { width: 3px; background-color: #58a6ff; animation: bounce 0s infinite; }
+    .playing .bar { animation: bounce 1s infinite ease-in-out; }
+    @keyframes bounce { 0%, 100% { height: 3px; } 50% { height: 15px; } }
+
+    /* --- 💼 TARKOV BUTTON --- */
+    .loot-container {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      z-index: 100;
+      border-radius: 8px;
+      padding: 10px 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 0 14px rgba(0,0,0,0.35);
+    }
+    .loot-container:hover { border-color: rgba(210,168,255,0.9); transform: scale(1.05); box-shadow: 0 0 18px rgba(210,168,255,0.16); }
+    .loot-icon { font-size: 1.5rem; }
+    .loot-hint { font-size: 0.8rem; color: var(--text); text-transform: uppercase; font-weight: bold; display: none; }
+    .loot-container:hover .loot-hint { display: block; }
+
+    /* --- MODAL (AJUSTADO PARA QUE LA FOTO “QUEPA” ✅) --- */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.92);
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
+      overflow: auto;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .modal.open{ opacity: 1; }
+
+    /* ✅ AQUÍ ESTÁ EL CAMBIO: imagen siempre encaja en pantalla */
+    .modal-content{
+      display: block;
+      margin: 60px auto 30px;
+      max-width: min(92vw, 980px);
+      max-height: calc(100vh - 120px);
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 14px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.55);
+      transform: translateY(10px) scale(0.99);
+      transition: transform 0.25s ease;
+    }
+    .modal.open .modal-content{ transform: translateY(0) scale(1); }
+
+    /* ✅ recomendado: cerrar fijo arriba (mejor en móvil) */
+    .close {
+      position: fixed;
+      top: 14px;
+      right: 18px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 2001;
+      opacity: 0.85;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .close:hover{ opacity: 1; transform: scale(1.04); }
+
+    /* --- 🎮 ESTILOS JUEGO TARKOV (GOD MODE) --- */
+    #game-area {
+      display: none; flex-direction: column; align-items: center; justify-content: center;
+      width: 100%; height: 100%; position: relative;
+      padding-bottom: 20px;
+    }
+
+    .stash-container {
+      background: #151515;
+      padding: 8px;
+      border: 3px solid var(--accent1);
+      border-radius: 6px;
+      margin-bottom: 15px;
+      position: relative;
+      box-shadow: 0 0 22px rgba(255, 123, 114, 0.12);
+    }
+
+    /* GRID DE 6x8 CELDAS */
+    .stash-grid-bg {
+      width: 270px;  /* 6 * 45px */
+      height: 360px; /* 8 * 45px */
+      background-image:
+        linear-gradient(#333 1px, transparent 1px),
+        linear-gradient(90deg, #333 1px, transparent 1px);
+      background-size: 45px 45px;
+      background-color: #1a1a1a;
+      position: relative;
+      border: 1px solid #555;
+      border-radius: 4px;
+    }
+
+    /* Area de objetos sueltos */
+    .loose-pool {
+      display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+      width: 320px; min-height: 80px;
+      padding: 10px; border-top: 2px dashed #333;
+    }
+
+    /* Los objetos (Items) */
+    .item {
+      display: flex; align-items: center; justify-content: center;
+      background-color: #2a2a2a;
+      border: 1px solid #777;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+      cursor: grab;
+      font-size: 1.2rem;
+      position: relative;
+      user-select: none;
+      touch-action: none;
+      z-index: 10;
+      transition: transform 0.1s;
+      border-radius: 6px;
+    }
+    .item:active { cursor: grabbing; z-index: 9999; transform: scale(1.05); transition: none; }
+    .item.placed {
+      box-shadow: inset 0 0 10px #4caf50, 0 6px 18px rgba(0,0,0,0.45);
+      border-color: #4caf50;
+      cursor: grab;
+    }
+
+    /* TAMAÑOS DIABÓLICOS (Base 45px) */
+    .item[data-w="3"][data-h="4"] { width: 135px; height: 180px; background: #3e3e2e; }
+    .item[data-w="3"][data-h="2"] { width: 135px; height: 90px; background: #4a5a4a; }
+    .item[data-w="4"][data-h="2"] { width: 180px; height: 90px; background: #2b2b2b; }
+    .item[data-w="4"][data-h="1"] { width: 180px; height: 45px; background: #3a2a2a; }
+    .item[data-w="2"][data-h="2"] { width: 90px; height: 90px; background: #2f353b; }
+
+    #win-screen { display: none; text-align: center; animation: popIn 0.5s; }
+    .found-in-raid-badge {
+      background: #111; color: var(--accent3); border: 1px solid var(--accent3);
+      padding: 5px 15px; display: inline-block; margin-top: 10px; font-weight: bold;
+      font-family: 'Consolas', monospace; box-shadow: 0 0 12px rgba(210, 168, 255, 0.22);
+      border-radius: 999px;
+    }
+    @keyframes popIn { from {transform: scale(0);} to {transform: scale(1);} }
+
+    /* Glow reactivo cuando música ON */
+    body.music-on .music-player-container{
+      box-shadow:
+        0 0 16px rgba(255,123,114,0.16),
+        0 0 20px rgba(121,192,255,0.14),
+        0 0 26px rgba(210,168,255,0.12),
+        0 12px 34px rgba(0,0,0,0.55);
+      animation: softPulse 3.2s ease-in-out infinite;
+    }
+    body.music-on .center-column .photo-frame{
+      box-shadow:
+        0 10px 35px rgba(0,0,0,0.45),
+        0 0 0 1px rgba(255,123,114,0.28),
+        0 0 30px rgba(255,123,114,0.16),
+        0 0 34px rgba(121,192,255,0.10);
+      animation: softPulse 3.2s ease-in-out infinite;
+    }
+    body.music-on .gradient-text{ animation-duration: 4.2s; }
+    @keyframes softPulse{
+      0%,100%{ transform: translateY(0); filter: brightness(1); }
+      50%{ transform: translateY(-1px); filter: brightness(1.03); }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{ animation: none !important; transition: none !important; }
+    }
+  </style>
 </head>
+
 <body>
+  <audio id="myAudio" loop>
+    <source src="song.mp3" type="audio/mpeg">
+  </audio>
 
-    <audio id="myAudio" loop>
-        <source src="song.mp3" type="audio/mpeg">
-    </audio>
+  <div class="music-player-container" id="playerWidget">
+    <button class="play-btn" onclick="toggleMusic()">▶</button>
+    <div class="song-info">
+      <span class="song-title">Nuestra Canción</span>
+      <span class="song-artist">Amor de cine</span>
+    </div>
+    <div class="equalizer" id="eq"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+  </div>
 
-    <div class="music-player-container" id="playerWidget">
-        <button class="play-btn" onclick="toggleMusic()">▶</button>
-        <div class="song-info">
-            <span class="song-title">Nuestra Canción</span>
-            <span class="song-artist">Amor de cine</span>
-        </div>
-        <div class="equalizer" id="eq"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+  <div class="loot-container" onclick="openGame()">
+    <span class="loot-icon">💼</span>
+    <span class="loot-hint">ORGANIZE STASH</span>
+  </div>
+
+  <div id="particles-container"></div>
+
+  <div class="container">
+    <div>
+      <h1 class="gradient-text">FELIZ SAN VALENTÍN BUBU</h1>
+    </div>
+    <div><span class="heart-beat">❤️</span></div>
+
+    <div class="uptime-box hidden">
+      <span id="uptime">Calculando...</span>
+      <span class="label">Tiempo aguantándonos (y queriéndonos)</span>
     </div>
 
-    <div class="loot-container" onclick="openGame()">
-        <span class="loot-icon">💼</span>
-        <span class="loot-hint">ORGANIZE STASH</span>
+    <div class="gallery-centered hidden">
+      <div class="side-column">
+        <div class="photo-frame"><img src="1.jpg" alt="Foto 1"></div>
+        <div class="photo-frame"><img src="2.jpg" alt="Foto 2"></div>
+        <div class="photo-frame"><img src="3.jpg" alt="Foto 3"></div>
+      </div>
+      <div class="center-column">
+        <div class="photo-frame main-photo">
+          <img src="main.jpg" alt="Nosotros Principal">
+        </div>
+      </div>
+      <div class="side-column">
+        <div class="photo-frame"><img src="4.jpg" alt="Foto 4"></div>
+        <div class="photo-frame"><img src="5.jpg" alt="Foto 5"></div>
+        <div class="photo-frame"><img src="6.jpg" alt="Foto 6"></div>
+      </div>
     </div>
 
-    <div id="particles-container"></div>
+    <div class="changelog hidden">
+      <h3>📜 Historial de nuestra historia</h3>
+      <p style="font-size: 0.8rem; color: #8b949e; margin-bottom: 20px;">(Haz clic en cada texto para desbloquear el recuerdo)</p>
 
-    <div class="container">
-        <div>
-            <h1 class="gradient-text">FELIZ SAN VALENTÍN BUBU</h1>
-        </div>
-        <div><span class="heart-beat">❤️</span></div>
+      <div class="log-item" onclick="openModal('2020.jpg')">
+        <span class="version">v2020.06.01 - The Initial Commit</span>
+        <span class="click-hint">📷 Ver recuerdo</span>
+        <span class="date">01/06/2020</span>
+        <span class="description">
+          El día que decidimos empezar esta partida en modo cooperativo. Se estableció la conexión inicial y el ping fue de 0ms (conexión directa al corazón).
+        </span>
+      </div>
 
-        <div class="uptime-box hidden">
-            <span id="uptime">Calculando...</span>
-            <span class="label">Tiempo aguantándonos (y queriéndonos)</span>
-        </div>
+      <div class="log-item" onclick="openModal('2021.jpg')">
+        <span class="version">v2021 - Compatibility Update</span>
+        <span class="click-hint">📷 Ver recuerdo</span>
+        <span class="date">2021</span>
+        <span class="description">
+          Primer año completo. Se corrigieron los bugs de la vergüenza inicial y se mejoró la sincronización.
+        </span>
+      </div>
 
-        <div class="gallery-centered hidden">
-            <div class="side-column">
-                <div class="photo-frame"><img src="1.jpg" alt="Foto 1"></div>
-                <div class="photo-frame"><img src="2.jpg" alt="Foto 2"></div>
-                <div class="photo-frame"><img src="3.jpg" alt="Foto 3"></div>
-            </div>
-            <div class="center-column">
-                <div class="photo-frame main-photo">
-                    <img src="main.jpg" alt="Nosotros Principal">
-                </div>
-            </div>
-            <div class="side-column">
-                <div class="photo-frame"><img src="4.jpg" alt="Foto 4"></div>
-                <div class="photo-frame"><img src="5.jpg" alt="Foto 5"></div>
-                <div class="photo-frame"><img src="6.jpg" alt="Foto 6"></div>
-            </div>
-        </div>
+      <div class="log-item" onclick="openModal('2022.jpg')">
+        <span class="version">v2022 - Expansion Pack</span>
+        <span class="click-hint">📷 Ver recuerdo</span>
+        <span class="date">2022</span>
+        <span class="description">
+          El módulo de seriedad ha dejado de responder. Ejecutando hacer_el_tonto.exe con la skin de McDonald's.
+        </span>
+      </div>
 
-        <div class="changelog hidden">
-            <h3>📜 Historial de nuestra historia</h3>
-            <p style="font-size: 0.8rem; color: #8b949e; margin-bottom: 20px;">(Haz clic en cada texto para desbloquear el recuerdo)</p>
-            
-            <div class="log-item" onclick="openModal('2020.jpg')">
-                <span class="version">v2020.06.01 - The Initial Commit</span> 
-                <span class="click-hint">📷 Ver recuerdo</span>
-                <span class="date">01/06/2020</span>
-                <span class="description">
-                    El día que decidimos empezar esta partida en modo cooperativo. Se estableció la conexión inicial y el ping fue de 0ms (conexión directa al corazón).
-                </span>
-            </div>
+      <div class="log-item" onclick="openModal('2023.jpg')">
+        <span class="version">v2023 - High Performance</span>
+        <span class="click-hint">📷 Ver recuerdo</span>
+        <span class="date">2023</span>
+        <span class="description">
+          El servidor alcanzó un uptime récord. Superamos desafíos y sumamos miles de gigas de recuerdos en <strong>Andorra y Canarias</strong>.
+        </span>
+      </div>
 
-            <div class="log-item" onclick="openModal('2021.jpg')">
-                <span class="version">v2021 - Compatibility Update</span>
-                <span class="click-hint">📷 Ver recuerdo</span> 
-                <span class="date">2021</span>
-                <span class="description">
-                    Primer año completo. Se corrigieron los bugs de la vergüenza inicial y se mejoró la sincronización.
-                </span>
-            </div>
+      <div class="log-item" onclick="openModal('2024.jpg')">
+        <span class="version">v2024.01.01 - The Pro Version</span>
+        <span class="click-hint">📷 Ver recuerdo</span>
+        <span class="date">2024</span>
+        <span class="description">
+          El cortafuegos de "Tipo Duro" ha sido desactivado con éxito. Acceso de administrador concedido para futuras usuarias (Nivel: Hijas). Vulnerabilidad ante ellas: 100%.
+        </span>
+      </div>
 
-            <div class="log-item" onclick="openModal('2022.jpg')">
-                <span class="version">v2022 - Expansion Pack</span> 
-                <span class="click-hint">📷 Ver recuerdo</span>
-                <span class="date">2022</span>
-                <span class="description">
-                    El módulo de seriedad ha dejado de responder. Ejecutando hacer_el_tonto.exe con la skin de McDonald's.
-                </span>
-            </div>
+      <div class="log-item" onclick="openModal('2025.jpg')">
+        <span class="version">v2025.10.21 - Solid Foundation</span>
+        <span class="click-hint">📷 Ver recuerdo</span>
+        <span class="date">21/10/2025</span>
+        <span class="description">
+          <strong>Reserva de infraestructura completada.</strong> Se han asignado los recursos físicos para el despliegue del servidor 'Nuestra Casa'. Ping de ilusión: Infinito.
+        </span>
+      </div>
 
-            <div class="log-item" onclick="openModal('2023.jpg')">
-                <span class="version">v2023 - High Performance</span> 
-                <span class="click-hint">📷 Ver recuerdo</span>
-                <span class="date">2023</span>
-                <span class="description">
-                    El servidor alcanzó un uptime récord. Superamos desafíos y sumamos miles de gigas de recuerdos en <strong>Andorra y Canarias</strong>.
-                </span>
-            </div>
+      <div class="log-item" style="border-left: 3px solid #ff7b72;" onclick="openModal('2026.jpg')">
+        <span class="version">v2026.02.14 - San Valentín Update</span>
+        <span class="click-hint">📷 Ver recuerdo</span>
+        <span class="date">HOY</span>
+        <span class="description">
+          Seguimos sumando momentos, fotos y razones para quererte. Eres mi persona favorita.
+        </span>
+      </div>
 
-            <div class="log-item" onclick="openModal('2024.jpg')">
-                <span class="version">v2024.01.01 - The Pro Version</span> 
-                <span class="click-hint">📷 Ver recuerdo</span>
-                <span class="date">2024</span>
-                <span class="description">
-                   El cortafuegos de "Tipo Duro" ha sido desactivado con éxito. Acceso de administrador concedido para futuras usuarias (Nivel: Hijas). Vulnerabilidad ante ellas: 100%.
-                </span>
-            </div>
-
-            <div class="log-item" onclick="openModal('2025.jpg')">
-                <span class="version">v2025.10.21 - Solid Foundation</span> 
-                <span class="click-hint">📷 Ver recuerdo</span>
-                <span class="date">21/10/2025</span>
-                <span class="description">
-                    <strong>Reserva de infraestructura completada.</strong> Se han asignado los recursos físicos para el despliegue del servidor 'Nuestra Casa'. Ping de ilusión: Infinito.
-                </span>
-            </div>
-
-            <div class="log-item" style="border-left: 3px solid #ff7b72;" onclick="openModal('2026.jpg')">
-                <span class="version">v2026.02.14 - San Valentín Update</span> 
-                <span class="click-hint">📷 Ver recuerdo</span>
-                <span class="date">HOY</span>
-                <span class="description">
-                    Seguimos sumando momentos, fotos y razones para quererte. Eres mi persona favorita.
-                </span>
-            </div>
-
-            <div class="log-item future-item" onclick="openModal('2028.jpg')">
-                <span class="version">v2028.x.x - Project: HOME</span> 
-                <span class="click-hint">📷 Ver plano/render</span>
-                <span class="date">FUTURO PRÓXIMO</span>
-                <span class="description">
-                    <strong>Roadmap Objetivo:</strong> Finalización de la compilación de la estructura. Entrega de claves de acceso físicas (llaves) y despliegue total en el entorno de producción 'Nuestra Casa'.<br>
-                    Status: <em>Migrating to localhost:2028... [██████████] 100% Loaded.</em>
-                </span>
-            </div>
-
-        </div>
-
-        <a href="#" onclick="alert('Renovado hasta el 01/06/2100 ¡Te quiero infinito! ❤️')" class="btn hidden">
-            Renovar contrato de amor
-        </a>
-
-        <div class="footer">
-            <p>Hecho con HTML, CSS y muchísmo amor | 2026</p>
-        </div>
+      <div class="log-item future-item" onclick="openModal('2028.jpg')">
+        <span class="version">v2028.x.x - Project: HOME</span>
+        <span class="click-hint">📷 Ver plano/render</span>
+        <span class="date">FUTURO PRÓXIMO</span>
+        <span class="description">
+          <strong>Roadmap Objetivo:</strong> Finalización de la compilación de la estructura. Entrega de claves de acceso físicas (llaves) y despliegue total en el entorno de producción 'Nuestra Casa'.<br>
+          Status: <em>Migrating to localhost:2028... [██████████] 100% Loaded.</em>
+        </span>
+      </div>
     </div>
 
-    <div id="imageModal" class="modal">
-        <span class="close" onclick="closeModal()">&times;</span>
-        
-        <img class="modal-content" id="modalImg" style="display:none;">
-        
-        <div id="game-area" style="display:none;">
-            <h2 style="color:#ff7b72; font-family:'Courier New'; margin-bottom:5px;">⚠️LOVE EDITION⚠️</h2>
-            <p style="color:#8b949e; font-size:0.8rem; margin-bottom:15px;">SIMULADOR INVENTARIO DEL TARKOV</p>
-            
-            <div class="stash-container">
-                <div class="stash-grid-bg" id="stash-grid"></div>
-            </div>
+    <a href="#" onclick="alert('Renovado hasta el 01/06/2100 ¡Te quiero infinito! ❤️')" class="btn hidden">
+      Renovar contrato de amor
+    </a>
 
-            <div class="loose-pool" id="pool">
-                </div>
-
-            <div id="win-screen">
-                <img src="loot.jpg" style="max-width:300px; border:2px solid #d2a8ff; border-radius:5px;">
-                <br>
-                <div class="found-in-raid-badge">✔ FOUND IN RAID</div>
-                <p style="color:#fff; margin-top:10px;">Extraction Successful!</p>
-            </div>
-        </div>
+    <div class="footer">
+      <p>Hecho con HTML, CSS y muchísmo amor | 2026</p>
     </div>
+  </div>
 
-    <script>
-        // --- FECHA Y CONTADOR ---
-        const startDate = new Date(2020, 5, 1); 
-        function updateUptime() {
-            const now = new Date();
-            const diff = now - startDate;
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-            const years = Math.floor(days / 365);
-            const remainingDays = days % 365;
-            document.getElementById("uptime").innerText = 
-                `${years} Años, ${remainingDays} Días, ${hours}h ${minutes}m ${seconds}s`;
+  <div id="imageModal" class="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+
+    <img class="modal-content" id="modalImg" style="display:none;">
+
+    <div id="game-area" style="display:none;">
+      <h2 style="color:#ff7b72; font-family:'Courier New'; margin-bottom:5px;">⚠️LOVE EDITION⚠️</h2>
+      <p style="color:#8b949e; font-size:0.8rem; margin-bottom:15px;">SIMULADOR INVENTARIO DEL TARKOV</p>
+
+      <div class="stash-container">
+        <div class="stash-grid-bg" id="stash-grid"></div>
+      </div>
+
+      <div class="loose-pool" id="pool"></div>
+
+      <div id="win-screen">
+        <img src="loot.jpg" style="max-width:300px; border:2px solid #d2a8ff; border-radius:10px; box-shadow:0 18px 50px rgba(0,0,0,0.55);">
+        <br>
+        <div class="found-in-raid-badge">✔ FOUND IN RAID</div>
+        <p style="color:#fff; margin-top:10px;">Extraction Successful!</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- FECHA Y CONTADOR ---
+    const startDate = new Date(2020, 5, 1);
+    function updateUptime() {
+      const now = new Date();
+      const diff = now - startDate;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      const years = Math.floor(days / 365);
+      const remainingDays = days % 365;
+      document.getElementById("uptime").innerText =
+        `${years} Años, ${remainingDays} Días, ${hours}h ${minutes}m ${seconds}s`;
+    }
+    setInterval(updateUptime, 1000);
+    updateUptime();
+
+    // --- PARTICULAS (mejoradas) ---
+    function createParticle() {
+      const container = document.getElementById('particles-container');
+      const particle = document.createElement('div');
+      const useBlur = Math.random() < 0.25;
+
+      if (useBlur) {
+        particle.classList.add('particle', 'blur-dot');
+      } else {
+        particle.classList.add('particle');
+        const symbols = ['❤️', '⚡', '💖', '💍', '🏠'];
+        particle.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+      }
+
+      particle.style.left = Math.random() * 100 + 'vw';
+      const duration = Math.random() * 6 + 7;
+      particle.style.animationDuration = duration + 's';
+
+      if (!useBlur) {
+        particle.style.fontSize = (Math.random() * 1.3 + 1.0) + 'rem';
+      } else {
+        const size = Math.random() * 10 + 6;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+      }
+
+      container.appendChild(particle);
+      setTimeout(() => particle.remove(), duration * 1000);
+    }
+    setInterval(createParticle, 520);
+
+    // --- FADE IN ---
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('show');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.hidden').forEach((el) => observer.observe(el));
+
+    // --- MÚSICA ---
+    const audio = document.getElementById("myAudio");
+    const playBtn = document.querySelector(".play-btn");
+    const eq = document.getElementById("eq");
+    let isPlaying = false;
+
+    function toggleMusic() {
+      if (isPlaying) {
+        audio.pause();
+        playBtn.innerText = "▶";
+        eq.classList.remove("playing");
+        document.body.classList.remove("music-on");
+      } else {
+        audio.play();
+        playBtn.innerText = "⏸";
+        eq.classList.add("playing");
+        document.body.classList.add("music-on");
+      }
+      isPlaying = !isPlaying;
+    }
+
+    audio.addEventListener('pause', () => {
+      isPlaying = false;
+      playBtn.innerText = "▶";
+      eq.classList.remove("playing");
+      document.body.classList.remove("music-on");
+    });
+    audio.addEventListener('play', () => {
+      isPlaying = true;
+      playBtn.innerText = "⏸";
+      eq.classList.add("playing");
+      document.body.classList.add("music-on");
+    });
+
+    // --- MODALES ---
+    const modal = document.getElementById("imageModal");
+    const imgDisplay = document.getElementById("modalImg");
+    const gameDisplay = document.getElementById("game-area");
+
+    function openModal(imageSrc) {
+      modal.style.display = "block";
+      requestAnimationFrame(() => modal.classList.add("open"));
+      imgDisplay.style.display = "block";
+      gameDisplay.style.display = "none";
+      imgDisplay.src = imageSrc;
+    }
+    function closeModal() {
+      modal.classList.remove("open");
+      setTimeout(() => { modal.style.display = "none"; }, 220);
+    }
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    // --- JUEGO: GOD MODE 6x8 (48 Slots) ---
+    const GRID_COLS = 6;
+    const GRID_ROWS = 8;
+    const CELL_PX = 45;
+    let gridState = Array(GRID_ROWS).fill().map(() => Array(GRID_COLS).fill(0));
+
+    const itemsConfig = [
+      { id: 1, type: 'trooper', w: 3, h: 4, icon: '⛽' },
+      { id: 2, type: 'rig1', w: 3, h: 2, icon: '🦺' },
+      { id: 3, type: 'rig2', w: 3, h: 2, icon: '⚕️' },
+      { id: 4, type: 'rifle', w: 4, h: 2, icon: '🔫' },
+      { id: 5, type: 'helmet', w: 2, h: 2, icon: '⛑️' },
+      { id: 6, type: 'ammo', w: 2, h: 2, icon: '💼' },
+      { id: 7, type: 'barrel', w: 4, h: 1, icon: '🍾' },
+      { id: 8, type: 'scope', w: 4, h: 1, icon: '💵' }
+    ];
+
+    let placedItems = 0;
+
+    function openGame() {
+      modal.style.display = "block";
+      requestAnimationFrame(() => modal.classList.add("open"));
+      imgDisplay.style.display = "none";
+      gameDisplay.style.display = "flex";
+      resetGame();
+    }
+
+    function resetGame() {
+      const pool = document.getElementById('pool');
+      pool.innerHTML = '';
+      document.getElementById('stash-grid').innerHTML = '';
+      document.getElementById('win-screen').style.display = 'none';
+      document.querySelector('.stash-container').style.display = 'block';
+      pool.style.display = 'flex';
+
+      gridState = Array(GRID_ROWS).fill().map(() => Array(GRID_COLS).fill(0));
+      placedItems = 0;
+
+      itemsConfig.forEach(conf => {
+        let el = document.createElement('div');
+        el.className = 'item';
+        el.innerText = conf.icon;
+        el.setAttribute('data-w', conf.w);
+        el.setAttribute('data-h', conf.h);
+        el.setAttribute('data-id', conf.id);
+
+        el.addEventListener('mousedown', startDrag);
+        el.addEventListener('touchstart', startDrag, {passive: false});
+
+        pool.appendChild(el);
+      });
+    }
+
+    function startDrag(e) {
+      e.preventDefault();
+      let item = this;
+
+      if(item.classList.contains('placed')) {
+        let oldCol = parseInt(item.dataset.col);
+        let oldRow = parseInt(item.dataset.row);
+        let w = parseInt(item.dataset.w);
+        let h = parseInt(item.dataset.h);
+        freeGrid(oldCol, oldRow, w, h);
+        item.classList.remove('placed');
+        placedItems--;
+      }
+
+      let startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+      let startY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+
+      let rect = item.getBoundingClientRect();
+      let shiftX = startX - rect.left;
+      let shiftY = startY - rect.top;
+
+      item.style.position = 'fixed';
+      item.style.zIndex = 9999;
+      item.style.left = rect.left + 'px';
+      item.style.top = rect.top + 'px';
+      item.style.transition = 'none';
+      document.body.appendChild(item);
+
+      function moveAt(pageX, pageY) {
+        item.style.left = pageX - shiftX + 'px';
+        item.style.top = pageY - shiftY + 'px';
+      }
+
+      function onMove(e) {
+        let curX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+        let curY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+        moveAt(curX, curY);
+      }
+
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('touchmove', onMove, {passive: false});
+
+      function onEnd(e) {
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('touchmove', onMove);
+        document.removeEventListener('mouseup', onEnd);
+        document.removeEventListener('touchend', onEnd);
+
+        item.style.transition = 'transform 0.1s';
+
+        let stash = document.getElementById('stash-grid');
+        let stashRect = stash.getBoundingClientRect();
+        let itemRect = item.getBoundingClientRect();
+
+        let relX = itemRect.left - stashRect.left;
+        let relY = itemRect.top - stashRect.top;
+
+        let col = Math.round(relX / CELL_PX);
+        let row = Math.round(relY / CELL_PX);
+
+        let w = parseInt(item.dataset.w);
+        let h = parseInt(item.dataset.h);
+
+        if (isValidPlacement(col, row, w, h)) {
+          snapToGrid(item, col, row, w, h);
+        } else {
+          returnToPool(item);
         }
-        setInterval(updateUptime, 1000);
-        updateUptime();
+      }
 
-        // --- PARTÍCULAS ---
-        function createParticle() {
-            const container = document.getElementById('particles-container');
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            const symbols = ['❤️', '⚡', '💖', '💍', '🏠'];
-            particle.innerText = symbols[Math.floor(Math.random() * symbols.length)];
-            particle.style.left = Math.random() * 100 + 'vw';
-            const duration = Math.random() * 5 + 5; 
-            particle.style.animationDuration = duration + 's';
-            particle.style.fontSize = (Math.random() * 1.5 + 1) + 'rem'; 
-            container.appendChild(particle);
-            setTimeout(() => { particle.remove(); }, duration * 1000);
+      document.addEventListener('mouseup', onEnd);
+      document.addEventListener('touchend', onEnd);
+    }
+
+    function isValidPlacement(col, row, w, h) {
+      if (col < 0 || row < 0 || col + w > GRID_COLS || row + h > GRID_ROWS) return false;
+      for(let r=row; r<row+h; r++) {
+        for(let c=col; c<col+w; c++) {
+          if(gridState[r][c] !== 0) return false;
         }
-        setInterval(createParticle, 400);
+      }
+      return true;
+    }
 
-        // --- FADE IN ---
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('show');
-            });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.hidden').forEach((el) => observer.observe(el));
-
-        // --- MÚSICA ---
-        const audio = document.getElementById("myAudio");
-        const playBtn = document.querySelector(".play-btn");
-        const eq = document.getElementById("eq");
-        let isPlaying = false;
-        function toggleMusic() {
-            if (isPlaying) { audio.pause(); playBtn.innerText = "▶"; eq.classList.remove("playing"); } 
-            else { audio.play(); playBtn.innerText = "⏸"; eq.classList.add("playing"); }
-            isPlaying = !isPlaying;
+    function snapToGrid(item, col, row, w, h) {
+      for(let r=row; r<row+h; r++) {
+        for(let c=col; c<col+w; c++) {
+          gridState[r][c] = 1;
         }
+      }
+      let stash = document.getElementById('stash-grid');
+      stash.appendChild(item);
 
-        // --- MODALES ---
-        const modal = document.getElementById("imageModal");
-        const imgDisplay = document.getElementById("modalImg");
-        const gameDisplay = document.getElementById("game-area");
+      item.style.position = 'absolute';
+      item.style.zIndex = 100;
+      item.style.left = (col * CELL_PX) + 'px';
+      item.style.top = (row * CELL_PX) + 'px';
+      item.classList.add('placed');
+      item.dataset.col = col;
+      item.dataset.row = row;
 
-        function openModal(imageSrc) {
-            modal.style.display = "block";
-            imgDisplay.style.display = "block";
-            gameDisplay.style.display = "none";
-            imgDisplay.src = imageSrc;
+      placedItems++;
+      checkWin();
+    }
+
+    function freeGrid(col, row, w, h) {
+      for(let r=row; r<row+h; r++) {
+        for(let c=col; c<col+w; c++) {
+          gridState[r][c] = 0;
         }
-        function closeModal() { modal.style.display = "none"; }
+      }
+    }
 
-        // --- JUEGO: GOD MODE 6x8 (48 Slots) ---
-        const GRID_COLS = 6;
-        const GRID_ROWS = 8;
-        const CELL_PX = 45; 
-        let gridState = Array(GRID_ROWS).fill().map(() => Array(GRID_COLS).fill(0)); 
-        
-        // ITEMS SIN 1x1. SUMA EXACTA 48.
-        const itemsConfig = [
-            { id: 1, type: 'trooper', w: 3, h: 4, icon: '⛽' },  // 12 (Masivo)
-            { id: 2, type: 'rig1', w: 3, h: 2, icon: '🦺' },     // 6
-            { id: 3, type: 'rig2', w: 3, h: 2, icon: '⚕️' },     // 6
-            { id: 4, type: 'rifle', w: 4, h: 2, icon: '🔫' },    // 8 (Rompe columnas de 3)
-            { id: 5, type: 'helmet', w: 2, h: 2, icon: '⛑️' },   // 4
-            { id: 6, type: 'ammo', w: 2, h: 2, icon: '💼' },     // 4
-            { id: 7, type: 'barrel', w: 4, h: 1, icon: '🍾' },   // 4 (Muy largo)
-            { id: 8, type: 'scope', w: 4, h: 1, icon: '💵' }     // 4
-        ]; 
-        // SUMA: 12 + 6 + 6 + 8 + 4 + 4 + 4 + 4 = 48. EXACTO.
-        // TRUCO: Los de ancho 4 te obligan a dejar huecos de 2. Los de ancho 3 llenan mitad del tablero.
+    function returnToPool(item) {
+      let pool = document.getElementById('pool');
+      pool.appendChild(item);
+      item.style.position = 'relative';
+      item.style.left = 'auto';
+      item.style.top = 'auto';
+      item.style.zIndex = 10;
+    }
 
-        let placedItems = 0;
-
-        function openGame() {
-            modal.style.display = "block";
-            imgDisplay.style.display = "none";
-            gameDisplay.style.display = "flex";
-            resetGame();
-        }
-
-        function resetGame() {
-            const pool = document.getElementById('pool');
-            pool.innerHTML = '';
-            document.getElementById('stash-grid').innerHTML = ''; 
-            document.getElementById('win-screen').style.display = 'none';
-            document.querySelector('.stash-container').style.display = 'block';
-            pool.style.display = 'flex';
-            
-            gridState = Array(GRID_ROWS).fill().map(() => Array(GRID_COLS).fill(0));
-            placedItems = 0;
-
-            itemsConfig.forEach(conf => {
-                let el = document.createElement('div');
-                el.className = 'item';
-                el.innerText = conf.icon;
-                el.setAttribute('data-w', conf.w);
-                el.setAttribute('data-h', conf.h);
-                el.setAttribute('data-id', conf.id);
-                
-                el.addEventListener('mousedown', startDrag);
-                el.addEventListener('touchstart', startDrag, {passive: false});
-                
-                pool.appendChild(el);
-            });
-        }
-
-        // DRAG LOGIC
-        function startDrag(e) {
-            e.preventDefault();
-            let item = this;
-            
-            if(item.classList.contains('placed')) {
-                let oldCol = parseInt(item.dataset.col);
-                let oldRow = parseInt(item.dataset.row);
-                let w = parseInt(item.dataset.w);
-                let h = parseInt(item.dataset.h);
-                freeGrid(oldCol, oldRow, w, h);
-                item.classList.remove('placed');
-                placedItems--;
-            }
-
-            let startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-            let startY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
-            
-            let rect = item.getBoundingClientRect();
-            let shiftX = startX - rect.left;
-            let shiftY = startY - rect.top;
-
-            item.style.position = 'fixed';
-            item.style.zIndex = 9999;
-            item.style.left = rect.left + 'px';
-            item.style.top = rect.top + 'px';
-            item.style.transition = 'none'; 
-            document.body.appendChild(item);
-
-            function moveAt(pageX, pageY) {
-                item.style.left = pageX - shiftX + 'px';
-                item.style.top = pageY - shiftY + 'px';
-            }
-
-            function onMove(e) {
-                let curX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-                let curY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
-                moveAt(curX, curY);
-            }
-
-            document.addEventListener('mousemove', onMove);
-            document.addEventListener('touchmove', onMove, {passive: false});
-
-            function onEnd(e) {
-                document.removeEventListener('mousemove', onMove);
-                document.removeEventListener('touchmove', onMove);
-                document.removeEventListener('mouseup', onEnd);
-                document.removeEventListener('touchend', onEnd);
-                
-                item.style.transition = 'transform 0.1s'; 
-
-                let stash = document.getElementById('stash-grid');
-                let stashRect = stash.getBoundingClientRect();
-                let itemRect = item.getBoundingClientRect();
-
-                let relX = itemRect.left - stashRect.left;
-                let relY = itemRect.top - stashRect.top;
-
-                let col = Math.round(relX / CELL_PX);
-                let row = Math.round(relY / CELL_PX);
-                
-                let w = parseInt(item.dataset.w);
-                let h = parseInt(item.dataset.h);
-
-                if (isValidPlacement(col, row, w, h)) {
-                    snapToGrid(item, col, row, w, h);
-                } else {
-                    returnToPool(item);
-                }
-            }
-
-            document.addEventListener('mouseup', onEnd);
-            document.addEventListener('touchend', onEnd);
-        }
-
-        function isValidPlacement(col, row, w, h) {
-            if (col < 0 || row < 0 || col + w > GRID_COLS || row + h > GRID_ROWS) return false;
-            for(let r=row; r<row+h; r++) {
-                for(let c=col; c<col+w; c++) {
-                    if(gridState[r][c] !== 0) return false;
-                }
-            }
-            return true;
-        }
-
-        function snapToGrid(item, col, row, w, h) {
-            for(let r=row; r<row+h; r++) {
-                for(let c=col; c<col+w; c++) {
-                    gridState[r][c] = 1;
-                }
-            }
-            let stash = document.getElementById('stash-grid');
-            stash.appendChild(item);
-            
-            item.style.position = 'absolute';
-            item.style.zIndex = 100;
-            item.style.left = (col * CELL_PX) + 'px';
-            item.style.top = (row * CELL_PX) + 'px';
-            item.classList.add('placed');
-            item.dataset.col = col;
-            item.dataset.row = row;
-
-            placedItems++;
-            checkWin();
-        }
-
-        function freeGrid(col, row, w, h) {
-            for(let r=row; r<row+h; r++) {
-                for(let c=col; c<col+w; c++) {
-                    gridState[r][c] = 0;
-                }
-            }
-        }
-
-        function returnToPool(item) {
-            let pool = document.getElementById('pool');
-            pool.appendChild(item);
-            item.style.position = 'relative';
-            item.style.left = 'auto';
-            item.style.top = 'auto';
-            item.style.zIndex = 10;
-        }
-
-        function checkWin() {
-            if(placedItems === itemsConfig.length) {
-                setTimeout(() => {
-                    document.querySelector('.stash-container').style.display = 'none';
-                    document.getElementById('pool').style.display = 'none';
-                    document.getElementById('win-screen').style.display = 'block';
-                }, 500);
-            }
-        }
-
-    </script>
+    function checkWin() {
+      if(placedItems === itemsConfig.length) {
+        setTimeout(() => {
+          document.querySelector('.stash-container').style.display = 'none';
+          document.getElementById('pool').style.display = 'none';
+          document.getElementById('win-screen').style.display = 'block';
+        }, 500);
+      }
+    }
+  </script>
 </body>
 </html>
