@@ -489,6 +489,67 @@
     @media (prefers-reduced-motion: reduce){
       *{ animation: none !important; transition: none !important; }
     }
+
+    /* --- ⚠️ WARNING MODAL --- */
+    #warning-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(13, 17, 23, 0.95);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      animation: fadeIn 0.3s ease-out;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    
+    .warning-box {
+      border: 2px solid var(--accent1);
+      background: #161b22;
+      padding: 30px;
+      max-width: 90%;
+      width: 400px;
+      text-align: center;
+      border-radius: 12px;
+      box-shadow: 0 0 50px rgba(255, 123, 114, 0.25), inset 0 0 20px rgba(255, 123, 114, 0.1);
+      position: relative;
+    }
+    .warning-box h2 {
+      color: var(--accent1);
+      margin-top: 0;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 1.8rem;
+    }
+    .warning-box p {
+      color: var(--text);
+      font-size: 1rem;
+      margin: 20px 0;
+    }
+    .warning-btn {
+      background: transparent;
+      border: 1px solid var(--accent1);
+      color: var(--accent1);
+      padding: 10px 25px;
+      font-family: inherit;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+    }
+    .warning-btn:hover {
+      background: var(--accent1);
+      color: #0d1117;
+      box-shadow: 0 0 15px var(--accent1);
+    }
+    .blink { animation: blinker 1s linear infinite; }
+    @keyframes blinker { 50% { opacity: 0; } }
+
   </style>
 </head>
 
@@ -542,11 +603,11 @@
       </div>
     </div>
 
-    <div class="changelog hidden">
+    <div class="changelog hidden" id="changelog-section">
       <h3>📜 Historial de nuestra historia</h3>
       <p style="font-size: 0.8rem; color: #8b949e; margin-bottom: 20px;">(Haz clic en cada texto para desbloquear el recuerdo)</p>
 
-      <div class="log-item" onclick="openModal('2020.jpg')">
+      <div class="log-item" onclick="attemptOpenFirst('2020.jpg')">
         <span class="version">v2020.06.01 - The Initial Commit</span>
         <span class="click-hint">📷 Ver recuerdo</span>
         <span class="date">01/06/2020</span>
@@ -653,6 +714,15 @@
     </div>
   </div>
 
+  <div id="warning-modal">
+    <div class="warning-box">
+      <h2>✋ ALTO AHÍ <span class="blink">_</span></h2>
+      <p>Primero lee la historia, luego desbloquea la foto.</p>
+      <p style="font-size: 0.9rem; color: #8b949e;">(Es importante leer cada versión antes de ver la foto)</p>
+      <button class="warning-btn" onclick="acceptWarning()">ENTENDIDO, LEERÉ</button>
+    </div>
+  </div>
+
   <script>
     // --- FECHA Y CONTADOR ---
     const startDate = new Date(2020, 5, 1);
@@ -709,6 +779,30 @@
       });
     }, { threshold: 0.1 });
     document.querySelectorAll('.hidden').forEach((el) => observer.observe(el));
+
+    // --- ⚠️ LOGICA DE LA ADVERTENCIA (INTERACTIVA) ---
+    // Variable para saber si ya se mostro la alerta
+    let warningShown = false;
+
+    // Esta funcion se llama al pinchar el primer item (v2020)
+    function attemptOpenFirst(imageSrc) {
+      if (!warningShown) {
+        // Si no se ha mostrado, muestra alerta y BLOQUEA la apertura de foto
+        document.getElementById('warning-modal').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        warningShown = true; // Marcamos como visto para la proxima
+      } else {
+        // Si ya se vio la alerta, abre la foto normalmente
+        openModal(imageSrc);
+      }
+    }
+
+    // Al aceptar la alerta, solo cerramos el modal para que LEA el texto
+    function acceptWarning() {
+      document.getElementById('warning-modal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
 
     // --- MÚSICA ---
     const audio = document.getElementById("myAudio");
